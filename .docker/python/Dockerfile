@@ -1,3 +1,7 @@
 FROM debian:11.5
-RUN apt-get update && apt-get install python3 -y
+RUN apt update && apt install python pip default-libmysqlclient-dev -y
+
+WORKDIR /usr/src/api
+COPY api/ .
+
 
