@@ -13,7 +13,7 @@ class Sentenses(db.Model):
     sentense = db.Column(db.String(20), nullable=False)
 
 
-@api.route('/paste', methods=['POST'])
+@api.route('/paste', methods=['GET','POST'])
 def paste_string():
     data = Sentenses(sentense="Ola Inoa")
     try:
@@ -30,4 +30,4 @@ def paste_string():
 if __name__ == '__main__':
     with api.app_context():
         db.create_all()
-    api.run()
+    api.run(host='0.0.0.0')

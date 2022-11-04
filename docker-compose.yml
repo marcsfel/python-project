@@ -12,6 +12,10 @@ services:
     build:
       context: .
       dockerfile: ./.docker/python/Dockerfile
+    depends_on:
+      database:
+        condition: service_started
+    restart: always
     container_name: flask_api
     networks:
       challange_network:
@@ -21,6 +25,7 @@ services:
   database:
     image: mysql:8.0
     restart: always
+    container_name: database
     environment:
       - MYSQL_DATABASE=challange
       - MYSQL_ROOT_PASSWORD=abcd1234
