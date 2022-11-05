@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
 
 api = Flask(__name__)
-api.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:abcd1234@172.28.0.2/challange'
+api.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:abcd1234@mysql/challange'
 api.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(api)

@@ -22,13 +22,12 @@ services:
       - MYSQL_ROOT_PASSWORD=abcd1234
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
-      start_period: 10s
-      interval: 10s
-      timeout: 10s
+      start_period: 5s
+      interval: 3s
+      timeout: 3s
       retries: 3
     networks:
-      challange_network:
-        ipv4_address: 172.28.0.2
+      - challange_network
     ports:
       - "3306"
     volumes:
