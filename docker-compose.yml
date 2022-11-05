@@ -1,42 +1,58 @@
 version: '3.8'
 
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./.docker/python/Dockerfile
+    depends_on:
+      mysql:
+        condition: service_healthy
+    container_name: flask_api
+    networks:
+      - challange_network
+    ports:
+      - "5000"
+  mysql:
+    image: mysql:8.0
+    restart: always
+    container_name: mysql
+    environment:
+      - MYSQL_DATABASE=challange
+      - MYSQL_ROOT_PASSWORD=abcd1234
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      start_period: 10s
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    networks:
+      challange_network:
+        ipv4_address: 172.28.0.2
+    ports:
+      - "3306"
+    volumes:
+      - mysql:/var/lib/mysql
+  proxy:
+    image: nginx:stable-alpine
+    container_name: proxy
+    restart: always
+    depends_on:
+      - app
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+    - challange_network
+    ports:
+      - "8080:80"
+
+
 networks:
   challange_network:
     ipam:
       config:
         - subnet: 172.28.0.0/24
 
-services:
-  app1:
-    tty: true
-    build:
-      context: .
-      dockerfile: ./.docker/python/Dockerfile
-    depends_on:
-      database:
-        condition: service_started
-    restart: always
-    container_name: flask_api
-    networks:
-      challange_network:
-        ipv4_address: 172.28.0.2
-    ports:
-      - "5000:5000"
-  database:
-    image: mysql:8.0
-    restart: always
-    container_name: database
-    environment:
-      - MYSQL_DATABASE=challange
-      - MYSQL_ROOT_PASSWORD=abcd1234
-    networks:
-      challange_network:
-        ipv4_address: 172.28.0.3
-    ports:
-      - "3360:3306"
-    volumes:
-      - database:/var/lib/mysql
-
 volumes:
-  database:
+  mysql:
     driver: local
