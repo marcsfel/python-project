@@ -19,7 +19,7 @@ class Sentenses(db.Model):
 # Inserir a string no banco e retornar com 201 + string
 @api.route('/paste', methods=['GET','POST'])
 def paste_string():
-    data = Sentenses(sentense="Ola Inoa")
+    data = Sentenses(sentense=os.getenv("STRING_API"))
     try:
         db.session.add(data)
         db.session.commit()

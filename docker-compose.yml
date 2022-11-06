@@ -10,6 +10,7 @@ services:
         condition: service_healthy
     container_name: flask_api
     environment:
+      STRING_API: ${STRING_API}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
