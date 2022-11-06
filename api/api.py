@@ -1,18 +1,22 @@
 from flask import Flask, make_response, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
+import os
 
 api = Flask(__name__)
-api.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:abcd1234@mysql/challange'
+
+# Conexão com o banco
+api.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://{os.getenv("MYSQL_USER")}:{os.getenv("MYSQL_PASSWORD")}@mysql/{os.getenv("MYSQL_DATABASE")}'
 api.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(api)
 
+# Model para criação da tabela
 class Sentenses(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sentense = db.Column(db.String(20), nullable=False)
 
-
+# Inserir a string no banco e retornar com 201 + string
 @api.route('/paste', methods=['GET','POST'])
 def paste_string():
     data = Sentenses(sentense="Ola Inoa")

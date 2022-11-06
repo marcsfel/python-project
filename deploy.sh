@@ -14,26 +14,67 @@
 #                                                                                           #
 #############################################################################################
 
+OPCAO = 1
 
 if [ $USER = "root" ] 
 then
-    if ! [ "$(which curl)" ]
-    then
-        apt update && apt install curl -y
-    fi
-    if ! [ "$(which docker)" ]
-    then
-        curl -fsSL https://get.docker.com | bash
-    fi
-    if ! [ "$(which docker-compose)" ]
-    then
-        apt install docker-compose -y
-    fi
+    echo "#################################"
+    echo "Deploy API-Flask + MYSQL + NGINX"
+    echo "#################################"
+    echo "Escolha uma das opções a seguir:"
+    echo "1 - Deploy containers + build"
+    echo "2 - Deploy containers"
+    echo "3 - Status containers"
+    echo "4 - Parar containers"
+    echo "5 - Chamar API no console"
+    echo "6 - Exibir URL API"
+    echo "0 - Sair"
+    echo
 
-    clear
-    echo "################################"
-    echo "Todas as dependencias instaladas"
-    echo "################################"
+    
+
+    while [ "$OPCAO" != 0 ]
+    do
+    read -p "Opção desejada: " OPCAO
+    
+        case "$OPCAO" in
+        1)
+            docker-compose up -d --build
+            sleep 5
+            ;;
+
+        2)
+            docker-compose up -d
+            sleep 5
+            ;;
+
+        3)
+            docker-compose ps
+            sleep 5
+            ;;
+
+        4)
+            docker-compose down
+            sleep 5
+            ;;
+
+        5)
+            echo -n "Response: "
+            curl -X POST http://localhost:8080/paste
+            ;;
+        6)
+            echo http://localhost:8080/paste
+            ;;
+        0)
+            echo "Saindo..."
+            sleep 3
+            ;;
+
+        *)
+            echo "Opção inválida"
+            sleep 3
+        esac
+    done
 
 else
     echo "##########################"
