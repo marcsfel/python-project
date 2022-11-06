@@ -9,7 +9,6 @@ services:
       mysql:
         condition: service_healthy
     container_name: flask_api
-    tty: true
     environment:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -30,9 +29,9 @@ services:
     healthcheck:
       test: mysqladmin ping --user=${MYSQL_USER} --password=${MYSQL_PASSWORD}
       #test: mysql -u $MYSQL_USER -p$MYSQL_PASSWORD -e 'show databases'
-      start_period: 20s
-      interval: 5s
-      timeout: 5s
+      start_period: 30s
+      interval: 10s
+      timeout: 10s
       retries: 5
     networks:
       - challange_network
