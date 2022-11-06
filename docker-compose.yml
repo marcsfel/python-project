@@ -31,7 +31,7 @@ services:
     healthcheck:
       test: mysqladmin ping --user=${MYSQL_USER} --password=${MYSQL_PASSWORD}
       #test: mysql -u $MYSQL_USER -p$MYSQL_PASSWORD -e 'show databases'
-      start_period: 10s
+      start_period: 20s
       interval: 5s
       timeout: 5s
       retries: 5
@@ -58,7 +58,6 @@ services:
 
 networks:
   challange_network:
-    driver: bridge
     ipam:
       config:
         - subnet: 172.28.0.0/24
