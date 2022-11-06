@@ -27,7 +27,8 @@ then
     fi
     if ! [ "$(which docker-compose)" ]
     then
-        apt install docker-compose -y
+        curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        chmod +x /usr/local/bin/docker-compose
     fi
 
     clear

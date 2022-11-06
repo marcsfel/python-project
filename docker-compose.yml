@@ -27,7 +27,6 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      
     healthcheck:
       test: mysqladmin ping --user=${MYSQL_USER} --password=${MYSQL_PASSWORD}
       #test: mysql -u $MYSQL_USER -p$MYSQL_PASSWORD -e 'show databases'
