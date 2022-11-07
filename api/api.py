@@ -8,6 +8,8 @@ api = Flask(__name__)
 # Conexão com o banco
 api.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://{os.getenv("MYSQL_USER")}:{os.getenv("MYSQL_PASSWORD")}@mysql/{os.getenv("MYSQL_DATABASE")}'
 api.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Configuração para aceitar utf8 no json
+api.config['JSON_AS_ASCII'] = False
 
 db = SQLAlchemy(api)
 

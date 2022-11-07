@@ -9,6 +9,8 @@ services:
       mysql:
         condition: service_healthy
     container_name: flask_api
+    # Avaliar o restart always devido a conexão com o banco falhar
+    restart: always
     environment:
       STRING_API: ${STRING_API}
       MYSQL_USER: ${MYSQL_USER}
@@ -20,8 +22,8 @@ services:
       - "5000"
   mysql:
     image: mysql:8.0
-    restart: always
     container_name: mysql
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_USER: ${MYSQL_USER}
@@ -29,7 +31,6 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     healthcheck:
       test: mysqladmin ping --user=${MYSQL_USER} --password=${MYSQL_PASSWORD}
-      #test: mysql -u $MYSQL_USER -p$MYSQL_PASSWORD -e 'show databases'
       start_period: 30s
       interval: 10s
       timeout: 10s
