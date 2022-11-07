@@ -31,43 +31,76 @@ then
     echo "Escolha uma das opções a seguir:"
     echo "1 - Deploy containers + build"
     echo "2 - Deploy containers"
-    echo "3 - Status containers"
-    echo "4 - Parar containers"
-    echo "5 - Chamar API no console"
-    echo "6 - Exibir URL API"
+    echo "3 - Deploy com scaling de containers da API"
+    echo "4 - Status containers"
+    echo "5 - Parar containers"
+    echo "6 - Chamar API no console"
+    echo "7 - Exibir URL API"
     echo "0 - Sair"
+    echo
+    echo "** Sempre que realizar alguma alteração na api execute a opção 1 para realizar o build **"
     echo
     read -p "Opção desejada: " opcao
     
         case "$opcao" in
         1)
             docker-compose up -d --build
-            sleep 10
+            echo "#################################"
+            echo "Carregando menu..."
+            sleep 5
+            clear
             ;;
 
         2)
             docker-compose up -d
-            sleep 10
+            echo "#################################"
+            echo "Carregando menu..."
+            sleep 5
+            clear
             ;;
 
-        3)
-            docker-compose ps
-            sleep 20
+        3)  
+            read -p "Digite quantos containers deseja subir para a API: " SCALING
+            docker-compose up -d --scale api=$SCALING
+            echo "#################################"
+            echo "Carregando menu..."
+            sleep 5
+            clear
             ;;
 
         4)
-            docker-compose down
-            sleep 10
+            docker-compose ps
+            echo "#################################"
+            echo "Carregando menu..."
+            sleep 15
+            clear
             ;;
 
         5)
+            docker-compose down
+            echo "#################################"
+            echo "Carregando menu..."
+            sleep 5
+            clear
+            ;;
+
+        6)
+            echo
             echo -n "Response: "
             curl -X POST http://localhost:8080/paste
-            sleep 20
+            echo
+            echo
+            echo "#################################"
+            echo "Carregando menu..."
+            sleep 10
+            clear
             ;;
-        6)
+        7)
             echo http://localhost:8080/paste
-            sleep 20
+            echo "#################################"
+            echo "Carregando menu..."
+            sleep 10
+            clear
             ;;
         0)
             echo "Saindo..."
@@ -76,7 +109,11 @@ then
 
         *)
             echo "Opção inválida"
+            echo "#################################"
+            echo "Carregando menu..."
             sleep 5
+            clear
+            ;;
         esac
     done
 

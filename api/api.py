@@ -16,7 +16,7 @@ db = SQLAlchemy(api)
 # Model para criação da tabela
 class Sentenses(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    sentense = db.Column(db.String(20), nullable=False)
+    sentense = db.Column(db.String(80), nullable=False)
 
 # Inserir a string no banco e retornar com 201 + string
 @api.route('/paste', methods=['GET','POST'])
